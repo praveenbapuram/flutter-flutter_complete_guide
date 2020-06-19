@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'quiz.dart';
+import 'result.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,47 +16,44 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+
+  final _questions = const [
+    {
+      "questionText": "what is your favourtie colour ?",
+      "answers": ['RED', 'BLUE', 'GREEN']
+    },
+    {
+      "questionText": "what is your favourtie Animal ?",
+      "answers": ['LION', 'GOAT', 'CROCODILE']
+    },
+    {
+      "questionText": "what is your favourtie Pet ?",
+      "answers": ['Hen', 'Cat', 'Dog']
+    },
+  ];
+
   void _answerQuestion() {
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
+    if (_questionIndex < _questions.length) {
+      setState(() {
+        _questionIndex = _questionIndex + 1;
+      });
+    }
 
     print(_questionIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    const questions = [
-      {
-        "questionText": "what is your favourtie colour ?",
-        "answers": ['RED', 'BLUE', 'GREEN']
-      },
-      {
-        "questionText": "what is your favourtie Animal ?",
-        "answers": ['LION', 'GOAT', 'CROCODILE']
-      },
-      {
-        "questionText": "what is your favourtie Pet ?",
-        "answers": ['Hen', 'Cat', 'Dog']
-      },
-    ];
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
-          title: Text("My First App.."),
-        ),
-        body: Column(
-          children: [
-            Question(questions[_questionIndex]["questionText"]),
-            ...(questions[_questionIndex]["answers"] as List<String>)
-                .map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList()
-          ],
-        ),
-      ),
+          appBar: AppBar(
+            backgroundColor: Colors.blueGrey,
+            title: Text("My First App.."),
+          ),
+          body: (_questionIndex < _questions.length)
+              ? Quiz(answerQuestion:_answerQuestion,questions:_questions,questionIndex:_questionIndex)
+              : Result()),
     );
   }
 }
