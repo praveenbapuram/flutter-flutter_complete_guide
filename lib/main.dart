@@ -16,27 +16,31 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var _totalScore=0;
 
   final _questions = const [
     {
       "questionText": "what is your favourtie colour ?",
-      "answers": ['RED', 'BLUE', 'GREEN']
+      "answers": [{'text':'RED','score':1},{'text': 'BLUE','score':2}, {'text':'GREEN','score':3}]
     },
     {
       "questionText": "what is your favourtie Animal ?",
-      "answers": ['LION', 'GOAT', 'CROCODILE']
+      "answers": [{'text':'LION','score':1}, {'text':'GOAT','score':2}, {'text':'CROCODILE','score':3}]
     },
     {
       "questionText": "what is your favourtie Pet ?",
-      "answers": ['Hen', 'Cat', 'Dog']
+      "answers": [{'text':'Hen','score':1}, {'text':'Cat','score':2}, {'text':'Dog','score':3}]
     },
   ];
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+
+    
     if (_questionIndex < _questions.length) {
       setState(() {
-        _questionIndex = _questionIndex + 1;
+        _questionIndex = _questionIndex + 1;       
       });
+       _totalScore=_totalScore+score;
     }
 
     print(_questionIndex);
@@ -53,7 +57,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: (_questionIndex < _questions.length)
               ? Quiz(answerQuestion:_answerQuestion,questions:_questions,questionIndex:_questionIndex)
-              : Result()),
+              : Result(_totalScore)),
     );
   }
 }
